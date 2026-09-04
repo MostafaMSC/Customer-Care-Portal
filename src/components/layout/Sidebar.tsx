@@ -1,8 +1,8 @@
 import { NavLink } from 'react-router-dom';
 import { clsx } from 'clsx';
-import { Headset } from 'lucide-react';
 import { NAV_BY_ROLE } from '@/constants/nav';
 import { useAuthStore } from '@/store/authStore';
+import { Logo } from '@/components/ui/Logo';
 
 export function Sidebar() {
   const user = useAuthStore((s) => s.user);
@@ -10,11 +10,8 @@ export function Sidebar() {
 
   return (
     <aside className="hidden w-56 shrink-0 flex-col border-r border-border bg-surface md:flex">
-      <div className="flex h-14 items-center gap-2 border-b border-border px-4">
-        <div className="flex h-7 w-7 items-center justify-center rounded-md bg-brand-500 text-white">
-          <Headset className="h-4 w-4" />
-        </div>
-        <span className="text-sm font-semibold text-text">Care Portal</span>
+      <div className="flex h-14 items-center border-b border-border px-4">
+        <Logo subtitle="Customer Care" size="sm" />
       </div>
       <nav className="flex flex-1 flex-col gap-0.5 overflow-y-auto p-2">
         {items.map((item) => (

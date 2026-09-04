@@ -1,9 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { Headset } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { FieldShell, Input } from '@/components/ui/Field';
+import { Logo } from '@/components/ui/Logo';
 import { useAuth } from '@/hooks/useAuth';
 import { isRealMode } from '@/services/api/mode';
 
@@ -25,17 +25,17 @@ export default function LoginPage() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-surface-sunken px-4">
       <div className="w-full max-w-sm">
-        <div className="mb-6 flex flex-col items-center gap-2 text-center">
-          <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-brand-500 text-white">
-            <Headset className="h-5 w-5" />
+        <div className="brand-hero-gradient mb-0 flex flex-col items-center gap-3 rounded-t-lg px-6 py-8 text-center">
+          <Logo size="lg" onDark />
+          <div>
+            <h1 className="text-lg font-semibold text-white">Customer Care Portal</h1>
+            <p className="mt-1 text-sm text-white/75">Sign in to manage tickets and departments</p>
           </div>
-          <h1 className="text-lg font-semibold text-text">Customer Care Portal</h1>
-          <p className="text-sm text-text-muted">Sign in to manage tickets and departments</p>
         </div>
 
         <form
           onSubmit={handleSubmit((values) => login({ username: values.username, password: values.password }))}
-          className="flex flex-col gap-4 rounded-lg border border-border bg-surface p-6"
+          className="flex flex-col gap-4 rounded-b-lg border border-t-0 border-border bg-surface p-6"
           noValidate
         >
           <FieldShell label="Username or email" htmlFor="username" error={errors.username?.message} required>

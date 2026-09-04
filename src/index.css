@@ -13,11 +13,14 @@
   --color-text-muted: #5b6472;
   --color-text-faint: #8a93a3;
 
-  --color-brand-50: #eef4ff;
-  --color-brand-100: #dce8ff;
-  --color-brand-500: #2f5fd6;
-  --color-brand-600: #274ec2;
-  --color-brand-700: #1f3f9e;
+  --color-brand-50: #edfcf9;
+  --color-brand-100: #cdf7ee;
+  --color-brand-500: #0f9c92;
+  --color-brand-600: #0c7d76;
+  --color-brand-700: #0a5f5c;
+
+  --color-brand-gradient-from: #073b39;
+  --color-brand-gradient-to: #12b3a3;
 
   --color-danger-50: #fdecec;
   --color-danger-500: #d33a3a;
@@ -35,8 +38,18 @@
   --color-info-500: #1670a6;
 }
 
+/*
+ * Dark-mode overrides: plain CSS custom-property reassignments, NOT another
+ * @theme block. Tailwind v4's @theme is a compile-time token registry - it
+ * generates utilities like bg-brand-500 that reference var(--color-brand-500),
+ * but a second @theme nested in @media is not treated as a runtime-conditional
+ * override, so it silently wins over the base block for everyone regardless
+ * of their actual system preference. Overriding the same custom properties
+ * via a plain :root rule under the media query is real, cascading CSS and
+ * works correctly.
+ */
 @media (prefers-color-scheme: dark) {
-  @theme {
+  :root {
     --color-surface: #14161b;
     --color-surface-subtle: #1b1e25;
     --color-surface-sunken: #101216;
@@ -47,11 +60,14 @@
     --color-text-muted: #a4acba;
     --color-text-faint: #717a8a;
 
-    --color-brand-50: #16233f;
-    --color-brand-100: #1b2c4d;
-    --color-brand-500: #5b86e8;
-    --color-brand-600: #799bec;
-    --color-brand-700: #a2bcf5;
+    --color-brand-50: #0e2b28;
+    --color-brand-100: #123934;
+    --color-brand-500: #2dd4c2;
+    --color-brand-600: #5ee0d1;
+    --color-brand-700: #94ece1;
+
+    --color-brand-gradient-from: #051f1e;
+    --color-brand-gradient-to: #0f8a7f;
 
     --color-danger-50: #3a1d1d;
     --color-danger-500: #e2645f;
@@ -98,4 +114,8 @@ body {
 }
 ::-webkit-scrollbar-track {
   background: transparent;
+}
+
+.brand-hero-gradient {
+  background: linear-gradient(135deg, var(--color-brand-gradient-from), var(--color-brand-gradient-to));
 }
