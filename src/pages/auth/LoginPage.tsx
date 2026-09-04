@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { Button } from '@/components/ui/Button';
 import { FieldShell, Input } from '@/components/ui/Field';
-import { Logo } from '@/components/ui/Logo';
+import { LogoLockup } from '@/components/ui/Logo';
 import { useAuth } from '@/hooks/useAuth';
 import { isRealMode } from '@/services/api/mode';
 
@@ -26,7 +26,7 @@ export default function LoginPage() {
     <div className="flex min-h-screen items-center justify-center bg-surface-sunken px-4">
       <div className="w-full max-w-sm">
         <div className="brand-hero-gradient mb-0 flex flex-col items-center gap-3 rounded-t-lg px-6 py-8 text-center">
-          <Logo size="lg" onDark />
+          <LogoLockup className="w-40" />
           <div>
             <h1 className="text-lg font-semibold text-white">Customer Care Portal</h1>
             <p className="mt-1 text-sm text-white/75">Sign in to manage tickets and departments</p>

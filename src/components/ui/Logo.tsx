@@ -1,12 +1,8 @@
-import { ShieldCheck } from 'lucide-react';
 import { clsx } from 'clsx';
+import twokeyokIcon from '@/assets/twokeyok-icon-square.png';
+import twokeyokLockup from '@/assets/twokeyok-logo-lockup.png';
 
-/**
- * Twokeyok brand lockup. This is a placeholder built from the brand's teal
- * palette and a stand-in mark (ShieldCheck) - swap the icon markup below for
- * the real logo asset (SVG/PNG) once it's available; every consumer of this
- * component picks the change up automatically.
- */
+/** Twokeyok brand mark, cropped/exported from the company's own logo file. */
 export function Logo({
   subtitle,
   size = 'md',
@@ -19,19 +15,12 @@ export function Logo({
   className?: string;
 }) {
   const iconBox = size === 'lg' ? 'h-11 w-11' : size === 'sm' ? 'h-7 w-7' : 'h-8 w-8';
-  const iconGlyph = size === 'lg' ? 'h-6 w-6' : size === 'sm' ? 'h-3.5 w-3.5' : 'h-4 w-4';
   const wordmark = size === 'lg' ? 'text-xl' : size === 'sm' ? 'text-sm' : 'text-base';
 
   return (
     <div className={clsx('flex items-center gap-2.5', className)}>
-      <span
-        className={clsx(
-          'flex shrink-0 items-center justify-center rounded-lg text-white shadow-sm',
-          iconBox,
-          onDark ? 'bg-white/15 ring-1 ring-white/30' : 'brand-hero-gradient',
-        )}
-      >
-        <ShieldCheck className={iconGlyph} />
+      <span className={clsx('flex shrink-0 items-center justify-center overflow-hidden rounded-lg shadow-sm', iconBox)}>
+        <img src={twokeyokIcon} alt="" className="h-full w-full object-cover" />
       </span>
       <span className="flex flex-col leading-tight">
         <span className={clsx('font-semibold tracking-tight', wordmark, onDark ? 'text-white' : 'text-text')}>
@@ -45,4 +34,9 @@ export function Logo({
       </span>
     </div>
   );
+}
+
+/** Full brand lockup (icon + Arabic + "Twokeyok" wordmark) as shipped by the company - for hero/marketing placements. */
+export function LogoLockup({ className }: { className?: string }) {
+  return <img src={twokeyokLockup} alt="Twokeyok" className={clsx('h-auto w-48', className)} />;
 }
