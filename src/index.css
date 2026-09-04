@@ -1,0 +1,101 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Inter', system-ui, 'Segoe UI', Roboto, sans-serif;
+
+  --color-surface: #ffffff;
+  --color-surface-subtle: #f7f8fa;
+  --color-surface-sunken: #f0f2f5;
+  --color-border: #e2e5ea;
+  --color-border-strong: #cbd2dc;
+
+  --color-text: #1a1d24;
+  --color-text-muted: #5b6472;
+  --color-text-faint: #8a93a3;
+
+  --color-brand-50: #eef4ff;
+  --color-brand-100: #dce8ff;
+  --color-brand-500: #2f5fd6;
+  --color-brand-600: #274ec2;
+  --color-brand-700: #1f3f9e;
+
+  --color-danger-50: #fdecec;
+  --color-danger-500: #d33a3a;
+  --color-danger-600: #b62d2d;
+
+  --color-warning-50: #fff6e5;
+  --color-warning-500: #b5790a;
+  --color-warning-600: #96630a;
+
+  --color-success-50: #eaf7ee;
+  --color-success-500: #1f8a4c;
+  --color-success-600: #16703c;
+
+  --color-info-50: #eaf5fb;
+  --color-info-500: #1670a6;
+}
+
+@media (prefers-color-scheme: dark) {
+  @theme {
+    --color-surface: #14161b;
+    --color-surface-subtle: #1b1e25;
+    --color-surface-sunken: #101216;
+    --color-border: #2a2e37;
+    --color-border-strong: #3a3f4b;
+
+    --color-text: #e8eaee;
+    --color-text-muted: #a4acba;
+    --color-text-faint: #717a8a;
+
+    --color-brand-50: #16233f;
+    --color-brand-100: #1b2c4d;
+    --color-brand-500: #5b86e8;
+    --color-brand-600: #799bec;
+    --color-brand-700: #a2bcf5;
+
+    --color-danger-50: #3a1d1d;
+    --color-danger-500: #e2645f;
+    --color-danger-600: #f08a86;
+
+    --color-warning-50: #3a2c0f;
+    --color-warning-500: #e0a740;
+    --color-warning-600: #f0c164;
+
+    --color-success-50: #16311f;
+    --color-success-500: #4cbf7d;
+    --color-success-600: #71d69c;
+
+    --color-info-50: #132a37;
+    --color-info-500: #5db2e0;
+  }
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-surface-sunken);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  border-color: var(--color-border);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-strong);
+  border-radius: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
