@@ -12,9 +12,9 @@ export function useAuth() {
   const navigate = useNavigate();
 
   const loginMutation = useMutation({
-    mutationFn: ({ username, password }: { username: string; password: string }) => authApi.login(username, password),
-    onSuccess: ({ user: loggedInUser, accessToken }) => {
-      setAuth(loggedInUser, accessToken);
+    mutationFn: ({ email, password }: { email: string; password: string }) => authApi.login(email, password),
+    onSuccess: ({ user: loggedInUser, accessToken, refreshToken }) => {
+      setAuth(loggedInUser, accessToken, refreshToken);
       navigate(ROLE_HOME[loggedInUser.role], { replace: true });
     },
     onError: (error) => {

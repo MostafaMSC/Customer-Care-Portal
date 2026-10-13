@@ -3,8 +3,10 @@ import { Dialog } from '@/components/ui/Dialog';
 import { Button } from '@/components/ui/Button';
 import { FieldShell, Select, Textarea } from '@/components/ui/Field';
 import { STATUS_META } from '@/constants/ticketMeta';
+import { isRealMode } from '@/services/api/mode';
 import { TicketStatus, type TicketStatus as TicketStatusType } from '@/types/ticket';
 
+// The real backend has no "Cancelled" status.
 const SELECTABLE_STATUSES: TicketStatusType[] = [
   TicketStatus.InProgress,
   TicketStatus.WaitingForCustomer,
@@ -12,7 +14,7 @@ const SELECTABLE_STATUSES: TicketStatusType[] = [
   TicketStatus.Resolved,
   TicketStatus.Closed,
   TicketStatus.Reopened,
-  TicketStatus.Cancelled,
+  ...(isRealMode ? [] : [TicketStatus.Cancelled]),
 ];
 
 export function ChangeStatusDialog({

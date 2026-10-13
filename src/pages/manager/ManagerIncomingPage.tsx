@@ -13,6 +13,7 @@ export default function ManagerIncomingPage() {
     scope: 'department-queue',
     departmentId: user.departmentId,
     statuses: ['WaitingForDepartment'],
+    bucket: 'incoming',
     pageSize: 20,
   });
 

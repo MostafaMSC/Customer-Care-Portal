@@ -13,16 +13,19 @@ export default function EmployeeDashboardPage() {
       loadCounts={() => ticketsApi.employeeCounts(user.id)}
       countKeyToParams={(key) => {
         switch (key) {
+          // `bucket` is what the real backend's personal queue understands; the other fields drive the mock.
           case 'my-tickets':
-            return { scope: 'mine' };
+            return { scope: 'mine', bucket: 'assigned' };
           case 'team-tickets':
-            return { scope: 'team' };
+            return { scope: 'team', bucket: 'team' };
           case 'urgent':
             return { scope: 'mine', priorities: ['Urgent', 'Critical'] };
+          case 'in-progress':
+            return { scope: 'mine', statuses: ['InProgress'], bucket: 'inProgress' };
           case 'overdue':
-            return { scope: 'mine', overdueOnly: true };
+            return { scope: 'mine', overdueOnly: true, bucket: 'overdue' };
           case 'waiting':
-            return { scope: 'mine', statuses: ['WaitingForCustomer', 'WaitingForDepartment'] };
+            return { scope: 'mine', statuses: ['WaitingForCustomer', 'WaitingForDepartment'], bucket: 'waiting' };
           default:
             return {};
         }

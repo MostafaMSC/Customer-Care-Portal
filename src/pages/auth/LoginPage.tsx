@@ -8,7 +8,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { isRealMode } from '@/services/api/mode';
 
 const schema = z.object({
-  username: z.string().min(1, 'Username is required'),
+  email: z.string().min(1, 'Email is required').email('Enter a valid email address'),
   password: z.string().min(1, 'Password is required'),
   rememberMe: z.boolean().optional(),
 });
@@ -20,7 +20,7 @@ export default function LoginPage() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormValues>({ resolver: zodResolver(schema), defaultValues: { username: '', password: '', rememberMe: true } });
+  } = useForm<FormValues>({ resolver: zodResolver(schema), defaultValues: { email: '', password: '', rememberMe: true } });
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-surface-sunken px-4">
@@ -34,12 +34,12 @@ export default function LoginPage() {
         </div>
 
         <form
-          onSubmit={handleSubmit((values) => login({ username: values.username, password: values.password }))}
+          onSubmit={handleSubmit((values) => login({ email: values.email, password: values.password }))}
           className="flex flex-col gap-4 rounded-b-lg border border-t-0 border-border bg-surface p-6"
           noValidate
         >
-          <FieldShell label="Username or email" htmlFor="username" error={errors.username?.message} required>
-            <Input id="username" autoComplete="username" autoFocus {...register('username')} />
+          <FieldShell label="Email" htmlFor="email" error={errors.email?.message} required>
+            <Input id="email" type="email" autoComplete="email" autoFocus {...register('email')} />
           </FieldShell>
           <FieldShell label="Password" htmlFor="password" error={errors.password?.message} required>
             <Input id="password" type="password" autoComplete="current-password" {...register('password')} />
@@ -56,9 +56,11 @@ export default function LoginPage() {
 
           {!isRealMode && (
             <p className="rounded-md bg-surface-sunken px-3 py-2 text-xs text-text-muted">
-              Demo mode: try <code className="text-text">layla</code> (Network Manager), <code className="text-text">sara</code>{' '}
-              (Customer Care), <code className="text-text">ahmed</code> (Employee), <code className="text-text">mustafa</code>{' '}
-              (Customer) or <code className="text-text">nadia</code> (Management) with password{' '}
+              Demo mode: try <code className="text-text">layla.hassan@company.com</code> (Network Manager),{' '}
+              <code className="text-text">sara.ibrahim@company.com</code> (Customer Care),{' '}
+              <code className="text-text">ahmed.yousef@company.com</code> (Employee),{' '}
+              <code className="text-text">mustafa.kareem@example.com</code> (Customer) or{' '}
+              <code className="text-text">nadia.fares@company.com</code> (Management) with password{' '}
               <code className="text-text">password123</code>.
             </p>
           )}

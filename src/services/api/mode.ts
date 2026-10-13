@@ -1,12 +1,13 @@
 /**
- * Switches each API module between the real backend and the in-memory mock.
+ * Switches every API module between the real Call Center backend and the in-memory mock.
  *
- * Today only auth (`authApi`) can run in "real" mode against the actual
- * FingerPrint backend (POST /api/auth/login, GET /api/auth/me, ...). Every other
- * domain module (tickets, departments, users, customers, reports, notifications,
- * telephony) implements the routing/assignment workflow this app was built for,
- * which the backend does not expose yet - see /docs/api/frontend-requirements.md.
- * Those modules always run against the mock service until the backend catches up.
+ * `VITE_API_MODE=real` sends all traffic (auth, tickets, routing/assignment, lifecycle, collaboration,
+ * queues, departments, users, customers, reports) to `VITE_API_BASE_URL` - see docs/api/openapi.json
+ * for the contract and `services/api/real/` for the DTO mappers. Anything else uses the mock, which
+ * lets the UI be built and demoed without a backend.
+ *
+ * The backend has no notifications or telephony endpoints yet; in real mode the notification bell
+ * stays empty.
  */
 export const API_MODE: 'mock' | 'real' = import.meta.env.VITE_API_MODE === 'real' ? 'real' : 'mock';
 

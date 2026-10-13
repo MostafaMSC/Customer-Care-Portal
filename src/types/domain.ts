@@ -68,6 +68,10 @@ export interface User {
   permissions: Permission[];
   departmentId?: string;
   departmentName?: string;
+  /** Every department the user belongs to (real backend only). */
+  departmentIds?: string[];
+  /** Linked customer record for Customer-role accounts (real backend only). */
+  customerId?: string;
   jobTitle?: string;
   avatarUrl?: string;
 }

@@ -12,6 +12,9 @@ export const TicketSource = {
   Email: 'Email',
   Api: 'Api',
   Pbx: 'Pbx',
+  Chat: 'Chat',
+  WalkIn: 'WalkIn',
+  MobileApp: 'MobileApp',
 } as const;
 export type TicketSource = (typeof TicketSource)[keyof typeof TicketSource];
 
@@ -52,6 +55,7 @@ export const CollaborationStatus = {
   Responded: 'Responded',
   Completed: 'Completed',
   Declined: 'Declined',
+  Cancelled: 'Cancelled',
 } as const;
 export type CollaborationStatus = (typeof CollaborationStatus)[keyof typeof CollaborationStatus];
 
@@ -280,4 +284,6 @@ export interface RespondAssistancePayload {
   requestId: string;
   response: string;
   markCompleted: boolean;
+  /** false declines the request. Defaults to true. */
+  accept?: boolean;
 }

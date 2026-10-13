@@ -31,6 +31,9 @@ export const SOURCE_META: Record<TicketSource, { label: string; icon: string }> 
   [TicketSource.Email]: { label: 'Email', icon: 'mail' },
   [TicketSource.Api]: { label: 'API', icon: 'code' },
   [TicketSource.Pbx]: { label: 'PBX', icon: 'phone-call' },
+  [TicketSource.Chat]: { label: 'Chat', icon: 'message-square' },
+  [TicketSource.WalkIn]: { label: 'Walk-in', icon: 'door-open' },
+  [TicketSource.MobileApp]: { label: 'Mobile App', icon: 'smartphone' },
 };
 
 export const ASSIGNMENT_TYPE_LABEL: Record<AssignmentType, string> = {

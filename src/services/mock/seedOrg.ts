@@ -54,8 +54,8 @@ export const customers: Customer[] = [
 
 export const MOCK_PASSWORD = 'password123';
 
-export function findUserByUsername(username: string): User | undefined {
-  return users.find((u) => u.username.toLowerCase() === username.toLowerCase());
+export function findUserByEmail(email: string): User | undefined {
+  return users.find((u) => u.email.toLowerCase() === email.toLowerCase());
 }
 
 export function requireDefaultPermission(role: AppRole): Permission[] {

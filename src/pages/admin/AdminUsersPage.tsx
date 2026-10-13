@@ -8,7 +8,7 @@ import { usersApi } from '@/services/api/usersApi';
 import type { User } from '@/types/domain';
 
 export default function AdminUsersPage() {
-  const { data = [], isLoading, error, refetch } = useQuery({ queryKey: ['users'], queryFn: usersApi.list });
+  const { data = [], isLoading, error, refetch } = useQuery({ queryKey: ['users'], queryFn: () => usersApi.list() });
 
   const columns: Column<User>[] = [
     {

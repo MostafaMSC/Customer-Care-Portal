@@ -1,4 +1,4 @@
-import { Building2, Code2, Globe, Headset, Mail, Phone, PhoneCall, Users } from 'lucide-react';
+import { Building2, Code2, DoorOpen, Globe, Headset, Mail, MessageSquare, Phone, PhoneCall, Smartphone, Users } from 'lucide-react';
 import { Badge } from '@/components/ui/Badge';
 import { ASSIGNMENT_TYPE_LABEL, PRIORITY_META, SOURCE_META, STATUS_META } from '@/constants/ticketMeta';
 import { AssignmentType, type TicketPriority, type TicketSource, type TicketStatus } from '@/types/ticket';
@@ -13,7 +13,17 @@ export function StatusBadge({ status }: { status: TicketStatus }) {
   return <Badge tone={meta.tone}>{meta.label}</Badge>;
 }
 
-const SOURCE_ICONS = { phone: Phone, globe: Globe, headset: Headset, mail: Mail, code: Code2, 'phone-call': PhoneCall };
+const SOURCE_ICONS = {
+  phone: Phone,
+  globe: Globe,
+  headset: Headset,
+  mail: Mail,
+  code: Code2,
+  'phone-call': PhoneCall,
+  'message-square': MessageSquare,
+  'door-open': DoorOpen,
+  smartphone: Smartphone,
+};
 
 export function SourceBadge({ source }: { source: TicketSource }) {
   const meta = SOURCE_META[source];

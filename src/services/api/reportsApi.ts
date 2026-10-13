@@ -9,6 +9,9 @@ import { delay } from '@/services/mock/helpers';
 import * as db from '@/services/mock/db';
 import { departments, users } from '@/services/mock/seedOrg';
 import { isUserInvolvedInTicket } from '@/services/mock/db';
+import { ApiError } from '@/types/api';
+import { isRealMode } from './mode';
+import * as real from './real/reports';
 
 function hoursBetween(a?: string | null, b?: string | null): number | null {
   if (!a || !b) return null;
@@ -17,6 +20,7 @@ function hoursBetween(a?: string | null, b?: string | null): number | null {
 
 export const reportsApi = {
   async managementKpis(): Promise<ManagementKpis> {
+    if (isRealMode) return real.managementKpis();
     const all = db.queryTickets({});
     const today = new Date().toDateString();
     const resolvedToday = all.filter((t) => t.resolvedAt && new Date(t.resolvedAt).toDateString() === today).length;
@@ -37,6 +41,7 @@ export const reportsApi = {
   },
 
   async departmentPerformance(filters: ReportFilters = {}): Promise<DepartmentPerformanceRow[]> {
+    if (isRealMode) return real.departmentPerformance(filters);
     const target = filters.departmentId ? departments.filter((d) => d.id === filters.departmentId) : departments.filter((d) => d.id !== 'dept-cc');
     const rows: DepartmentPerformanceRow[] = target.map((dept) => {
       const touched = db.queryTickets({}).filter(
@@ -71,6 +76,7 @@ export const reportsApi = {
   },
 
   async employeePerformance(filters: ReportFilters = {}): Promise<EmployeePerformanceRow[]> {
+    if (isRealMode) return real.employeePerformance(filters);
     const pool = users.filter((u) => u.role === 'Employee' || u.role === 'Manager');
     const filtered = filters.departmentId ? pool.filter((u) => u.departmentId === filters.departmentId) : pool;
     const all = db.queryTickets({});
@@ -98,7 +104,14 @@ export const reportsApi = {
     return delay(rows.filter((r) => r.assigned > 0));
   },
 
+  /** Full lifecycle report of a single ticket (real backend only). */
+  async ticketLifecycle(ticketId: string): Promise<Record<string, unknown>> {
+    if (isRealMode) return real.ticketLifecycle(ticketId);
+    throw new ApiError({ status: 501, message: 'Lifecycle reports are only available against the real backend.' });
+  },
+
   async ticketAnalytics(): Promise<TicketAnalytics> {
+    if (isRealMode) return real.ticketAnalytics();
     const all = db.queryTickets({});
     const count = <T extends string>(items: T[]) =>
       Object.entries(

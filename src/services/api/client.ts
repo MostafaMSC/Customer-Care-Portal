@@ -47,12 +47,12 @@ apiClient.interceptors.response.use(
       originalRequest._retry = true;
       isRefreshing = true;
       try {
-        const { data } = await axios.post(
-          `${apiClient.defaults.baseURL}/api/auth/refresh`,
-          {},
-          { withCredentials: true },
-        );
-        useAuthStore.getState().setAccessToken(data.accessToken);
+        const refreshToken = useAuthStore.getState().refreshToken;
+        if (!refreshToken) throw new Error('No refresh token available');
+        const { data: body } = await axios.post(`${apiClient.defaults.baseURL}/api/auth/refresh`, { refreshToken });
+        // Backend envelope: { data: { accessToken, refreshToken, ... } }
+        const session = (body?.data ?? body) as { accessToken: string; refreshToken?: string };
+        useAuthStore.getState().setTokens(session.accessToken, session.refreshToken);
         queue.forEach((run) => run());
         queue = [];
         return apiClient(originalRequest);
@@ -71,18 +71,36 @@ apiClient.interceptors.response.use(
 );
 
 export function toApiError(error: AxiosError | unknown): ApiError {
+  if (error instanceof ApiError) return error;
   if (axios.isAxiosError(error)) {
     if (!error.response) {
       return new ApiError({ status: 0, message: 'Network error. Please check your connection.' });
     }
-    const body = error.response.data as { message?: string; errors?: Record<string, string[]> } | undefined;
+    // Backend error shape: { error: { code, message, details } }
+    const body = error.response.data as
+      | { message?: string; errors?: Record<string, string[]>; error?: { code?: string; message?: string; details?: unknown } }
+      | undefined;
     return new ApiError({
       status: error.response.status,
-      message: body?.message ?? defaultMessageFor(error.response.status),
-      fieldErrors: body?.errors,
+      message: body?.error?.message ?? body?.message ?? defaultMessageFor(error.response.status),
+      code: body?.error?.code,
+      fieldErrors: body?.errors ?? fieldErrorsFromDetails(body?.error?.details),
     });
   }
   return new ApiError({ status: 500, message: 'Unexpected error.' });
+}
+
+/** Validation details arrive as [{ path|field, message }] (zod/class-validator style); anything else is ignored. */
+function fieldErrorsFromDetails(details: unknown): Record<string, string[]> | undefined {
+  if (!Array.isArray(details)) return undefined;
+  const out: Record<string, string[]> = {};
+  for (const d of details) {
+    if (!d || typeof d !== 'object') continue;
+    const item = d as { path?: unknown; field?: unknown; message?: unknown };
+    const key = Array.isArray(item.path) ? item.path.join('.') : String(item.path ?? item.field ?? '');
+    if (key && typeof item.message === 'string') (out[key] ??= []).push(item.message);
+  }
+  return Object.keys(out).length ? out : undefined;
 }
 
 function defaultMessageFor(status: number): string {

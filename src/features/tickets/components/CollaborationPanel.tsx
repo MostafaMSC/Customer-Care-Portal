@@ -11,6 +11,7 @@ const STATUS_TONE = {
   [CollaborationStatus.Responded]: 'brand',
   [CollaborationStatus.Completed]: 'success',
   [CollaborationStatus.Declined]: 'danger',
+  [CollaborationStatus.Cancelled]: 'neutral',
 } as const;
 
 export function CollaborationPanel({

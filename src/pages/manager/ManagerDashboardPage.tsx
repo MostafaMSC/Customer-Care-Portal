@@ -15,18 +15,21 @@ export default function ManagerDashboardPage() {
       loadCounts={() => ticketsApi.managerCounts(departmentId)}
       countKeyToParams={(key) => {
         switch (key) {
+          // `bucket` is what the real backend's department queue understands; the other fields drive the mock.
           case 'incoming':
-            return { statuses: ['WaitingForDepartment'] };
+            return { statuses: ['WaitingForDepartment'], bucket: 'incoming' };
           case 'unassigned':
-            return { scope: 'department-unassigned' };
+            return { scope: 'department-unassigned', bucket: 'unassigned' };
+          case 'assigned':
+            return { statuses: ['Assigned'], bucket: 'assigned' };
           case 'in-progress':
-            return { statuses: ['InProgress', 'Assigned'] };
+            return { statuses: ['InProgress', 'Assigned'], bucket: 'inProgress' };
           case 'waiting':
-            return { statuses: ['WaitingForCustomer', 'WaitingForDepartment'] };
+            return { statuses: ['WaitingForCustomer', 'WaitingForDepartment'], bucket: 'waiting' };
           case 'overdue':
-            return { overdueOnly: true };
+            return { overdueOnly: true, bucket: 'overdue' };
           case 'critical':
-            return { criticalOnly: true };
+            return { criticalOnly: true, bucket: 'critical' };
           default:
             return {};
         }

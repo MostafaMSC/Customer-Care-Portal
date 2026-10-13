@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Dialog } from '@/components/ui/Dialog';
 import { Button } from '@/components/ui/Button';
 import { FieldShell, Textarea } from '@/components/ui/Field';
+import { isRealMode } from '@/services/api/mode';
 import type { CollaborationRequest, RespondAssistancePayload } from '@/types/ticket';
 
 export function RespondAssistanceDialog({
@@ -33,6 +34,20 @@ export function RespondAssistanceDialog({
           <Button variant="ghost" onClick={onClose}>
             Cancel
           </Button>
+          {isRealMode && (
+            <Button
+              variant="outline"
+              loading={isSubmitting}
+              disabled={!response.trim()}
+              onClick={async () => {
+                await onSubmit({ requestId: request.id, response: response.trim(), markCompleted: false, accept: false });
+                onClose();
+                setResponse('');
+              }}
+            >
+              Decline
+            </Button>
+          )}
           <Button
             loading={isSubmitting}
             disabled={!response.trim()}
